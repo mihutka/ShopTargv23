@@ -16,7 +16,7 @@ namespace ShopTARgv23
 
             builder.Services.AddDbContext<ShopTARgv23Context>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
             var app = builder.Build();
-            CreateDbIfNotExists(app);
+            
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
@@ -40,9 +40,6 @@ namespace ShopTARgv23
             app.Run();
         }
 
-        private static void CreateDbIfNotExists(WebApplication app)
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 }
