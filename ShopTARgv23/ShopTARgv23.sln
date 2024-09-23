@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35122.118
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShopTARgv23", "ShopTARgv23\ShopTARgv23.csproj", "{B1FFA263-CD96-4CB8-8F15-82AC057154AB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShopTARgv23", "ShopTARgv23\ShopTARgv23.csproj", "{B1FFA263-CD96-4CB8-8F15-82AC057154AB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShopTARgv23ApplicationServices", "ShopTARgv23ApplicationServices\ShopTARgv23ApplicationServices.csproj", "{F7A7B1A6-B26A-444D-8159-35936B1A197C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShopTARgv23ApplicationServices", "ShopTARgv23ApplicationServices\ShopTARgv23ApplicationServices.csproj", "{F7A7B1A6-B26A-444D-8159-35936B1A197C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShopTARgv23.Core", "ShopTARgv23.Core\ShopTARgv23.Core.csproj", "{12A9FFE2-781A-4593-BE9D-31D0C1188602}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShopTARgv23.Core", "ShopTARgv23.Core\ShopTARgv23.Core.csproj", "{12A9FFE2-781A-4593-BE9D-31D0C1188602}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShopTARgv23.Data", "ShopTARgv23.Data\ShopTARgv23.Data.csproj", "{61FC9F65-5F68-4DBC-B0B1-0CB6555D2818}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShopTARgv23.Data", "ShopTARgv23.Data\ShopTARgv23.Data.csproj", "{61FC9F65-5F68-4DBC-B0B1-0CB6555D2818}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
