@@ -1,5 +1,8 @@
 using Microsoft.EntityFrameworkCore;
+using ShopTARgv23.Core.ServiceInterface;
 using ShopTARgv23.Data;
+using ShopTARgv23ApplicationServices.Services;
+
 
 namespace ShopTARgv23
 {
@@ -11,6 +14,8 @@ namespace ShopTARgv23
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            builder.Services.AddScoped<ISpaceshipServices, SpaceshipsServices>();
 
 
 
