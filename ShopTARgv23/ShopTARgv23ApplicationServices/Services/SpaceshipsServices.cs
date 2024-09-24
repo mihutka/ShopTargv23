@@ -44,12 +44,22 @@ namespace ShopTARgv23ApplicationServices.Services
             domain.Crew = dto.Crew;
             domain.EnginePower = dto.EnginePower;
             domain.CreatedAt = dto.CreatedAt;
-            domain.ModifiedAt = dto.ModifiedAt;
+            domain.ModifiedAt = DateTime.Now;
 
             _context.Spaceships .Update( domain );
             await _context.SaveChangesAsync();
 
             return domain;
+        }
+
+        public async Task<Spaceship> Delete (Guid id)
+        {
+            var spaceship = await _context.Spaceships
+                .FirstOrDefaultAsync(x => x.Id == id);
+
+            _context.Spaceships .Remove(spaceship);
+            await _context.SaveChangesAsync();
+            return spaceship;
         }
 
 

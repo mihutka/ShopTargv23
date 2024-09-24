@@ -126,7 +126,7 @@ namespace ShopTARgv23.Controllers
         }
 
 
-        [HttpDelete]
+        [HttpGet]
         public async Task<IActionResult> Delete (Guid id)
         {
             var spaceship = await _spaceshipServices.DetailsAsync(id);
@@ -136,7 +136,35 @@ namespace ShopTARgv23.Controllers
                 return NotFound();
             }
 
+            var vm = new SpaceshipDeleteViewModel();
             
+                vm.Id = spaceship.Id;
+                vm.Name = spaceship.Name;
+                vm.Type = spaceship.Type;
+                vm.BuildDate = spaceship.BuildDate;
+                vm.CargoWeight = spaceship.CargoWeight;
+                vm.EnginePower = spaceship.EnginePower;
+                vm.Crew = spaceship.Crew;
+                vm.CreatedAt = spaceship.CreatedAt;
+                vm.ModifiedAt = spaceship.ModifiedAt;
+
+            
+
+            return View(vm);
+
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteConfirmation(Guid id)
+        {
+            var spaceship = await _spaceshipServices.Delete(id);
+
+            if (spaceship == null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            return RedirectToAction(nameof(Index));
         }
 
     }
