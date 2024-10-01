@@ -51,7 +51,7 @@
             @Html.DisplayFor(model => model.ModifiedAt)
         </div>
 
-        @foreach (var images in Model.FileTopViewModels)
+        @foreach (var images in Model.FileToApiViewModels)
         {
             <partial name="_Images" model="images" />
         }

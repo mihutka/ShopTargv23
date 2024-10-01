@@ -12,15 +12,19 @@ namespace ShopTARgv23.Controllers
     {
         private readonly ShopTARgv23Context _context;
         private readonly ISpaceshipServices _spaceshipServices;
+        private readonly IFileServices _fileServices;
 
         public SpaceshipsController
             (
                 ShopTARgv23Context context,
-                ISpaceshipServices spaceshipServices
+                ISpaceshipServices spaceshipServices,
+                IFileServices fileServices
+
             )
         {
             _context = context;
             _spaceshipServices = spaceshipServices;
+            _fileServices = fileServices;
         }
 
         public IActionResult Index()
@@ -150,18 +154,23 @@ namespace ShopTARgv23.Controllers
         public async Task<IActionResult> Update(SpaceshipCreateUpdateViewModel vm)
         {
             var dto = new SpaceshipDto();
-
-            dto.Id = vm.Id;
-            dto.Name = vm.Name;
-            dto.Type = vm.Type;
-            dto.BuiltDate = vm.BuiltDate;
-            dto.CargoWeight = vm.CargoWeight;
-            dto.Crew = vm.Crew;
-            dto.EnginePower = vm.EnginePower;
-            dto.CreatedAt = vm.CreatedAt;
-            dto.ModifiedAt = vm.ModifiedAt;
-
-            var result = await _spaceshipServices.Update(dto);
+            {
+                Id = vm.Id,
+                Name = vm.Name,
+                Type = vm.Type,
+                BuiltDate = vm.BuiltDate,
+                Cargoweight =vm.CargoWeight,
+                Crew = vm.Crew,
+                EnginePower = vm.EnginePower,
+                ModifiedAt =vm.ModifiedAt,
+                CreatedAt = vm.CreatedAt,
+                Files = vm.Files,
+                Image = vm.FileToApiViewModels,
+                    .Select(x=> new FileToApiDto)
+                    {
+                    Id = XmlConfigurationExtensions.
+                }
+            }
 
             if (result == null)
             {
@@ -202,6 +211,25 @@ namespace ShopTARgv23.Controllers
             var spaceship = await _spaceshipServices.Delete(id);
 
             if(spaceship == null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+
+        public async Task<IActionResult> RemoveImage(FileToApiViewModel vm)
+        {
+            var dto = new FileToApiDto()
+            {
+                Id = vm.ImageId,
+            };
+
+            var image = await _fileServices.RemoveImageFromApi(dto);
+            
+            if(image == null)
             {
                 return RedirectToAction(nameof(Index));
             }
