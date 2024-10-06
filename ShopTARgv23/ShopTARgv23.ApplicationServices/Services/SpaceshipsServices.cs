@@ -64,6 +64,7 @@ namespace ShopTARgv23.ApplicationServices.Services
             domain.EnginePower = dto.EnginePower;
             domain.CreatedAt = dto.CreatedAt;
             domain.ModifiedAt = DateTime.Now;
+            _fileServices.FilesToApi(dto, domain);
 
             _context.Spaceships.Update(domain);
             await _context.SaveChangesAsync();
@@ -82,11 +83,10 @@ namespace ShopTARgv23.ApplicationServices.Services
                 {
                     Id = y.Id,
                     SpaceshipId = y.SpaceshipId,
-                    ExistingFilePath = y.ExistingFilePath,
+                    ExistingFilePath = y.ExistingFilePath
                 }).ToArrayAsync();
 
             await _fileServices.RemoveImagesFromApi(images);
-
             _context.Spaceships.Remove(spaceship);
             await _context.SaveChangesAsync();
 

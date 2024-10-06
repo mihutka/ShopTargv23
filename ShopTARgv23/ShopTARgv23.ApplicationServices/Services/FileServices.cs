@@ -4,7 +4,6 @@ using ShopTARgv23.Core.Domain;
 using ShopTARgv23.Core.Dto;
 using ShopTARgv23.Core.ServiceInterface;
 using ShopTARgv23.Data;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace ShopTARgv23.ApplicationServices.Services
 {
@@ -54,17 +53,15 @@ namespace ShopTARgv23.ApplicationServices.Services
                     }
                 }
             }
-
-            
         }
-
 
         public async Task<FileToApi> RemoveImageFromApi(FileToApiDto dto)
         {
             var imageId = await _context.FileToApis
-               .FirstOrDefaultAsync(x => x.Id == dto.Id);
+                .FirstOrDefaultAsync(x => x.Id == dto.Id);
 
-            var filePath = _webHost.ContentRootPath + "\\multipleFileUpload\\" + imageId.ExistingFilePath;
+            var filePath = _webHost.ContentRootPath + "\\multipleFileUpload\\"
+                + imageId.ExistingFilePath;
 
             if(File.Exists(filePath))
             {
@@ -84,8 +81,8 @@ namespace ShopTARgv23.ApplicationServices.Services
                 var imageId = await _context.FileToApis
                     .FirstOrDefaultAsync(x => x.ExistingFilePath == dto.ExistingFilePath);
 
-
-                var filePath = _webHost.ContentRootPath + "\\multipleFileUpload\\" + imageId.ExistingFilePath;
+                var filePath = _webHost.ContentRootPath + "\\multipleFileUpload\\"
+                + imageId.ExistingFilePath;
 
                 if (File.Exists(filePath))
                 {
@@ -94,7 +91,6 @@ namespace ShopTARgv23.ApplicationServices.Services
 
                 _context.FileToApis.Remove(imageId);
                 await _context.SaveChangesAsync();
-
             }
 
             return null;

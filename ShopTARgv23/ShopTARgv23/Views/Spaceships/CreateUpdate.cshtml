@@ -71,7 +71,7 @@ else
         @foreach (var images in Model.FileToApiViewModels)
         {
             <partial name="_Images" model="images" />
-            <input asp-action="removeImages" asp-controller="spaceships" asp-route-ImageId="@images.ImageId" type="submit" class="btn btn-danger" value="Remove Image"/>
+            <input asp-action="removeImage" asp-controller="spaceships" asp-route-imageId="@images.ImageId" type="submit" class="btn btn-danger" value="Remove Image" />
         }
 
         @if (Model.Id.HasValue)
@@ -84,7 +84,7 @@ else
         }
         <input asp-action="index" asp-controller="spaceships" type="submit" class="btn btn-outline-secondary" value="Back" />
 
-
+        masterTest
     </form>
 </div>
 
@@ -96,13 +96,13 @@ else
             $('.custom-file-input').on("change", function () {
                 var fileLabel = $(this).next('.custom-file-label');
                 var files = $(this)[0].files;
-                if (files.lenght > 1) {
-                    fileLabel.html(files.lenght + 'files selected');
-                            else if (files.lenght == 1 {
-                        fileLabel.html(file[0].name);
-                    }
+                if (files.length > 1) {
+                    fileLabel.html(files.length + ' files selected');
                 }
-            }
-                });
+                else if (files.length == 1) {
+                    fileLabel.html(files[0].name);
+                }
+            });
+        });
     </script>
 }
