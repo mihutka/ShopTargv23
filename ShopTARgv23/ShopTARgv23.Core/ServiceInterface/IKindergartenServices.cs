@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace ShopTARgv23.Core.ServiceInterface
 {
-	public interface IServiceKindergarten
+	public interface IKindergartenServices
 	{
-		Task<Kindergarten> DetailAsync(Guid id);
+		Task<Kindergarten> DetailsAsync(Guid id);
 		Task<Kindergarten> Update (KindergartenDto dto);
 		Task<Kindergarten> Delete(Guid	id);
 		Task<Kindergarten> Create(KindergartenDto dto);

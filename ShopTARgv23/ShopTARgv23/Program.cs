@@ -16,10 +16,13 @@ namespace ShopTARgv23
             builder.Services.AddControllersWithViews();
 
             builder.Services.AddScoped<ISpaceshipServices, SpaceshipsServices>();
+            builder.Services.AddScoped<IKindergartenServices, KindergartenServices>();
             builder.Services.AddScoped<IFileServices, FileServices>();
 
             builder.Services.AddDbContext<ShopTARgv23Context>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+            options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
+            b => b.MigrationsAssembly("ShopTARgv23.Data")));  
+
 
             var app = builder.Build();
 
