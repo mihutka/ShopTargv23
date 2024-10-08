@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace ShopTARgv23.ApplicationServices.Services
 {
-	public class KindergartenServices
-	{
-
-	}
+    public class RealEstateServices
+    {
+    }
 }

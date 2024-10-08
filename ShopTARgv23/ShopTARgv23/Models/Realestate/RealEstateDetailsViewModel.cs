@@ -13,6 +13,11 @@
 
         public string BuildingType { get; set; }
 
+        public List<IFormFile> Files { get; set; }
+
+        public List<RealEstateImageViewModel> Image { get; set; }
+        = new List<RealEstateImageViewModel>();
+
         //only in db
 
         public DateTime CreatedAt { get; set; }

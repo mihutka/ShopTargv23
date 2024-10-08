@@ -13,6 +13,7 @@ namespace ShopTARgv23.Controllers
     {
         private readonly ShopTARgv23Context _context;
         private readonly IRealEstateServices _realestateServices;
+        
 
         public RealEstateController
             (
@@ -60,6 +61,19 @@ namespace ShopTARgv23.Controllers
                 Size = vm.Size,
                 RoomNumber = vm.RoomNumber,
                 BuildingType = vm.BuildingType,
+                CreatedAt = vm.CreatedAt,
+                UpdatedAt = vm.UpdatedAt,
+                Files = vm. Files,
+                Image = vm.Image
+                      .Select(x => new FileToDatabaseDto
+                      {
+                          Id = x.ImageId,
+                          ImageData = x.ImageData,
+                          ImageTitle = x.ImageTitle,
+                          RealEstateId = x.RealEstateId,
+
+                      }).ToArray()
+
          
             };
 

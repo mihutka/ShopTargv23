@@ -43,6 +43,28 @@ else
                 <input asp-for="BuildingType" class="form-control" />
             </div>
         </div>
+        <div class="form-group row">
+            <label asp-for="Files" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-5">
+                <div class="custom-file">
+                    <input class="form-control custom-file-label" asp-for="Files" multiple type="file" />
+                    <label class="custom-file-label">Choose File...</label>
+                </div>
+            </div>
+        </div>
+
+        <div>
+        @foreach (var images in Model.Image)
+        {
+            <partial name="_Images" model="images" />
+            <input asp-action="removeImage" asp-controller="Realestate" asp-route-imageId="@images.ImageId" type="submit" class="btn btn-danger" value="Remove Image" />
+        }
+        </div>
+
+
+
+
+
 
         
 
@@ -60,5 +82,22 @@ else
     </form>
 </div>
 
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            $('.custom-file-input').on("change", function () {
+                var fileLabel = $(this).next('.custom-file-label');
+                var files = $(this)[0].files;
+                if (files.length > 1) {
+                    fileLabel.html(files.length + ' files selected');
+                }
+                else if (files.length == 1) {
+                    fileLabel.html(files[0].name);
+                }
+            });
+        });
+    </script>
+}
 
 

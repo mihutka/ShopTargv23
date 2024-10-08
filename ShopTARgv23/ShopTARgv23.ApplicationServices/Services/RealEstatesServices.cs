@@ -17,14 +17,16 @@ namespace ShopTARgv23.ApplicationServices.Services
     public class RealEstatesServices : IRealEstateServices
     {
         private readonly ShopTARgv23Context _context;
-
+        private readonly IFileServices _fileServices;
         public RealEstatesServices
             (
                 ShopTARgv23Context context
+            , IFileServices fileServices
                 
             )
         {
             _context = context;
+            _fileServices = fileServices;
             
         }
 
@@ -49,6 +51,12 @@ namespace ShopTARgv23.ApplicationServices.Services
             realEstate.UpdatedAt = DateTime.Now;
             
 
+            
+
+            if (dto.Files != null)
+            {
+                _fileServices.UploadFilesToDatabase(dto, realEstate);
+            }
             await _context.RealEstates.AddAsync(realEstate);
             await _context.SaveChangesAsync();
 

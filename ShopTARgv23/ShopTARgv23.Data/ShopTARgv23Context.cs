@@ -13,5 +13,7 @@ namespace ShopTARgv23.Data
 
         public DbSet<RealEstate>RealEstates { get; set; }
 
+        public DbSet<FileToDataBase> FileToDatabases { get; set; }
+
     }
 }

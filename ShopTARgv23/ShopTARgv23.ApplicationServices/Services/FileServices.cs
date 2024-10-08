@@ -11,6 +11,7 @@ namespace ShopTARgv23.ApplicationServices.Services
     {
         private readonly IHostEnvironment _webHost;
         private readonly ShopTARgv23Context _context;
+        
 
         public FileServices
             (
@@ -94,6 +95,37 @@ namespace ShopTARgv23.ApplicationServices.Services
             }
 
             return null;
+        }
+
+        public void UploadFilesToDatabase(RealEstateDto dto, RealEstate domain)
+        {
+            if (dto.Files != null && dto.Files.Count > 0)
+            {
+                foreach(var image in dto.Files)
+                {
+                    using (var target = new MemoryStream())
+                    {
+                        
+                        
+                        FileToDataBase files = new FileToDataBase()
+                        {
+                            Id = Guid.NewGuid(),
+                            ImageTitle = image.Name,
+                            RealEstateId = domain.Id,
+                        };
+
+
+                        image.CopyTo(target);
+                        files.ImageData = target.ToArray();
+
+                        _context.FileToDatabases.Add(files); 
+                    }
+
+                    
+
+                    
+                }
+            }
         }
     }
 }
