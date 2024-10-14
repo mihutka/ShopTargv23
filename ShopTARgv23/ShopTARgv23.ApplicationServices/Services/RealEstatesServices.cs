@@ -3,14 +3,7 @@ using ShopTARgv23.Core.Domain;
 using ShopTARgv23.Core.Dto;
 using ShopTARgv23.Core.ServiceInterface;
 using ShopTARgv23.Data;
-using ShopTARgv23.Data.Migrations;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CoreRealEstate = ShopTARgv23.Core.Domain.RealEstate;
-using MigrationRealEstate = ShopTARgv23.Data.Migrations.RealEstate;
+
 
 namespace ShopTARgv23.ApplicationServices.Services
 {
@@ -18,19 +11,19 @@ namespace ShopTARgv23.ApplicationServices.Services
     {
         private readonly ShopTARgv23Context _context;
         private readonly IFileServices _fileServices;
+
         public RealEstatesServices
             (
-                ShopTARgv23Context context
-            , IFileServices fileServices
-                
+                ShopTARgv23Context context,
+                IFileServices fileServices
             )
         {
             _context = context;
             _fileServices = fileServices;
-            
         }
 
-        public async Task<CoreRealEstate> DetailsAsync(Guid id)
+
+        public async Task<RealEstate> GetAsync(Guid id)
         {
             var result = await _context.RealEstates
                 .FirstOrDefaultAsync(x => x.Id == id);
@@ -38,9 +31,9 @@ namespace ShopTARgv23.ApplicationServices.Services
             return result;
         }
 
-        public async Task<CoreRealEstate> Create(RealEstateDto dto)
+        public async Task<RealEstate> Create(RealEstateDto dto)
         {
-            CoreRealEstate realEstate = new();
+            RealEstate realEstate = new RealEstate();
 
             realEstate.Id = Guid.NewGuid();
             realEstate.Location = dto.Location;
@@ -48,32 +41,36 @@ namespace ShopTARgv23.ApplicationServices.Services
             realEstate.RoomNumber = dto.RoomNumber;
             realEstate.BuildingType = dto.BuildingType;
             realEstate.CreatedAt = DateTime.Now;
-            realEstate.UpdatedAt = DateTime.Now;
-            
+            realEstate.ModifiedAt = DateTime.Now;
 
-            
-
-            if (dto.Files != null)
+            if (dto.Files != null )
             {
                 _fileServices.UploadFilesToDatabase(dto, realEstate);
             }
+
             await _context.RealEstates.AddAsync(realEstate);
             await _context.SaveChangesAsync();
 
             return realEstate;
         }
 
-        public async Task<CoreRealEstate> Update(RealEstateDto dto)
+        public async Task<RealEstate> Update(RealEstateDto dto)
         {
-            CoreRealEstate domain = new();
+            var domain = new RealEstate()
+            {
+                Id = dto.Id,
+                Location = dto.Location,
+                Size = dto.Size,
+                RoomNumber = dto.RoomNumber,
+                BuildingType = dto.BuildingType,
+                CreatedAt = dto.CreatedAt,
+                ModifiedAt = DateTime.Now,
+            };
 
-            domain.Id = dto.Id;
-            domain.Location = dto.Location;
-            domain.Size = dto.Size;
-            domain.RoomNumber = dto.RoomNumber;
-            domain.BuildingType = dto.BuildingType;
-            domain.UpdatedAt = DateTime.Now;
-            
+            if (dto.Files != null)
+            {
+                _fileServices.UploadFilesToDatabase(dto, domain);
+            }
 
             _context.RealEstates.Update(domain);
             await _context.SaveChangesAsync();
@@ -81,19 +78,15 @@ namespace ShopTARgv23.ApplicationServices.Services
             return domain;
         }
 
-        public async Task<CoreRealEstate> Delete(Guid id)
+        public async Task<RealEstate> Delete(Guid id)
         {
-            var realestate = await _context.RealEstates
+            var result = await _context.RealEstates
                 .FirstOrDefaultAsync(x => x.Id == id);
 
-            
-
-           
-            _context.RealEstates.Remove(realestate);
+            _context.RealEstates.Remove(result);
             await _context.SaveChangesAsync();
 
-            return realestate;
+            return result;
         }
-
     }
 }

@@ -1,21 +1,14 @@
-﻿namespace ShopTARgv23.Models.Realestate
+﻿namespace ShopTARgv23.Models.RealEstates
 {
-    public class RealEstateDeleteViewModel
+    public class RealEstatesIndexViewModel
     {
         public Guid? Id { get; set; }
-
         public string Location { get; set; }
-
         public double Size { get; set; }
-
         public int RoomNumber { get; set; }
-
         public string BuildingType { get; set; }
 
-        //only in db
-
         public DateTime CreatedAt { get; set; }
-
-        public DateTime UpdatedAt { get; set; }
+        public DateTime ModifiedAt { get; set; }
     }
 }

@@ -11,7 +11,6 @@ namespace ShopTARgv23.ApplicationServices.Services
     {
         private readonly IHostEnvironment _webHost;
         private readonly ShopTARgv23Context _context;
-        
 
         public FileServices
             (
@@ -96,36 +95,42 @@ namespace ShopTARgv23.ApplicationServices.Services
 
             return null;
         }
+    
 
         public void UploadFilesToDatabase(RealEstateDto dto, RealEstate domain)
         {
             if (dto.Files != null && dto.Files.Count > 0)
             {
-                foreach(var image in dto.Files)
+                foreach (var image in dto.Files)
                 {
                     using (var target = new MemoryStream())
                     {
-                        
-                        
-                        FileToDataBase files = new FileToDataBase()
+                        FileToDatabase files = new FileToDatabase()
                         {
                             Id = Guid.NewGuid(),
-                            ImageTitle = image.Name,
-                            RealEstateId = domain.Id,
+                            ImageTitle = image.FileName,
+                            RealEstateId = domain.Id
                         };
-
 
                         image.CopyTo(target);
                         files.ImageData = target.ToArray();
 
-                        _context.FileToDatabases.Add(files); 
+                        _context.FileToDatabases.Add(files);
                     }
-
-                    
-
-                    
                 }
             }
+        }
+
+        public async Task<FileToDatabase> RemoveImageFromDatabase(FileToDatabaseDto dto)
+        {
+            var image = await _context.FileToDatabases
+                .Where(x => x.Id == dto.Id)
+                .FirstOrDefaultAsync();
+
+            _context.FileToDatabases.Remove(image);
+            await _context.SaveChangesAsync();
+
+            return image;
         }
     }
 }

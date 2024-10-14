@@ -40,7 +40,7 @@ namespace ShopTARgv23.Data.Migrations
                     b.ToTable("FileToApis");
                 });
 
-            modelBuilder.Entity("ShopTARgv23.Core.Domain.FileToDataBase", b =>
+            modelBuilder.Entity("ShopTARgv23.Core.Domain.FileToDatabase", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -79,14 +79,14 @@ namespace ShopTARgv23.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("ModifiedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("RoomNumber")
                         .HasColumnType("int");
 
                     b.Property<double>("Size")
                         .HasColumnType("float");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 

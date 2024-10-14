@@ -1,8 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-
-namespace ShopTARgv23.Core.Dto
+﻿namespace ShopTARgv23.Models.RealEstates
 {
-    public class RealEstateDto
+    public class RealEstateDeleteViewModel
     {
         public Guid? Id { get; set; }
         public string Location { get; set; }
@@ -10,11 +8,10 @@ namespace ShopTARgv23.Core.Dto
         public int RoomNumber { get; set; }
         public string BuildingType { get; set; }
 
-        public List<IFormFile> Files { get; set; }
-        public IEnumerable<FileToDatabaseDto> Image { get; set; }
-            = new List<FileToDatabaseDto>();
-
         public DateTime CreatedAt { get; set; }
         public DateTime ModifiedAt { get; set; }
+
+        public List<RealEstateImageViewModel> Image { get; set; }
+            = new List<RealEstateImageViewModel>();
     }
 }

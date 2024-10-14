@@ -12,8 +12,8 @@ using ShopTARgv23.Data;
 namespace ShopTARgv23.Data.Migrations
 {
     [DbContext(typeof(ShopTARgv23Context))]
-    [Migration("20241008090716_Image")]
-    partial class Image
+    [Migration("20241008091016_FileToDatabase")]
+    partial class FileToDatabase
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -43,7 +43,7 @@ namespace ShopTARgv23.Data.Migrations
                     b.ToTable("FileToApis");
                 });
 
-            modelBuilder.Entity("ShopTARgv23.Core.Domain.FileToDataBase", b =>
+            modelBuilder.Entity("ShopTARgv23.Core.Domain.FileToDatabase", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -82,14 +82,14 @@ namespace ShopTARgv23.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("ModifiedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("RoomNumber")
                         .HasColumnType("int");
 
                     b.Property<double>("Size")
                         .HasColumnType("float");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
