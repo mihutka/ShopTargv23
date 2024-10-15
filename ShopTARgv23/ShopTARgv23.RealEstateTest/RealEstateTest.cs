@@ -28,5 +28,39 @@ namespace ShopTARgv23.RealEstateTest
 
             Assert.NotNull(result);
         }
+
+        [Fact]
+
+        public async Task ShouldNot_GetByIdRealestate_WhenReturnsNotEqual()
+        {
+            Guid wrongGuid = Guid.Parse(Guid.NewGuid().ToString());
+            Guid guid = Guid.Parse("dad9f4b9-e301-499b-8c3e-40bf95b8d950");
+
+
+            //Act
+            await Svc<IRealEstateServices>().GetAsync(guid);
+
+
+            //Assert
+            Assert.NotEqual(wrongGuid, guid);
+
+
+        }
+
+
+        [Fact]
+
+        public async Task Should_GetByIdRealEstate_WhenReturnEqual()
+        {
+            Guid correctGuid = Guid.Parse("dad9f4b9-e301-499b-8c3e-40bf95b8d950");
+            Guid guid = Guid.Parse("dad9f4b9-e301-499b-8c3e-40bf95b8d950");
+
+            await Svc<IRealEstateServices>().GetAsync(guid);
+
+            Assert.Equal(correctGuid, guid);
+
+        }
+
+
     }
 }
