@@ -178,9 +178,6 @@ namespace ShopTARgv23.RealEstateTest
             Assert.NotEqual(create.Id, result.Id);
 
 
-
-
-
         }
       
 
