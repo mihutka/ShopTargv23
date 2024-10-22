@@ -1,4 +1,6 @@
 
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.VisualBasic;
 using ShopTARgv23.Core.Domain;
 using ShopTARgv23.Core.Dto;
 using ShopTARgv23.Core.ServiceInterface;
@@ -6,6 +8,7 @@ using ShopTARgv23.Data.Migrations;
 using System;
 using System.Drawing;
 using System.Xml;
+using Xunit.Sdk;
 
 
 namespace ShopTARgv23.RealEstateTest
@@ -128,6 +131,8 @@ namespace ShopTARgv23.RealEstateTest
             Assert.DoesNotMatch(domain.RoomNumber.ToString(), realEstate.RoomNumber.ToString());
             Assert.NotEqual(domain.Size, realEstate.Size);
 
+            
+
 
 
 
@@ -179,8 +184,43 @@ namespace ShopTARgv23.RealEstateTest
 
 
         }
-      
 
+        [Fact]
+
+        public async Task ShouldNot_DeleteRealEstate_WhenDeleteRealEstate()
+        {
+            RealEstateDto realEstateDto = MockRealEstateData();
+
+            var realEstate1 = await Svc<IRealEstateServices>().Create(realEstateDto);
+
+            var result = await Svc<IRealEstateServices>().Delete((Guid)realEstate1.Id);
+
+            Assert.False(string.IsNullOrEmpty(result.Location));
+
+        }
+
+        [Fact]
+
+        public async Task ShouldNot_UpdateRealEstate_WhenUpdateDataVersion2()
+        {
+            RealEstateDto dto = MockRealEstateData();
+
+            var createRealEstate = await Svc<IRealEstateServices>().Create(dto);
+
+            RealEstateDto update = MockRealEstateData2();
+
+            var result = await Svc<IRealEstateServices>().Update(update);
+
+            Assert.Equal(update.Size, result.Size);
+            Assert.Matches(update.Location, result.Location);
+            Assert.Equal(update.ModifiedAt, result.ModifiedAt);
+
+
+
+
+
+
+        }
 
 
         private RealEstateDto  MockRealEstateData()
