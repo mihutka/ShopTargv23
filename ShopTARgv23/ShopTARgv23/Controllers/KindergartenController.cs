@@ -5,6 +5,7 @@ using ShopTARgv23.Core.Dto;
 using ShopTARgv23.Core.ServiceInterface;
 using ShopTARgv23.Data;
 using ShopTARgv23.Models.Kindergarten;
+using System.Xml;
 
 namespace ShopTARgv23.Controllers
 {
@@ -51,7 +52,7 @@ namespace ShopTARgv23.Controllers
         {
             var dto = new KindergartenDto
             {
-                Id = Guid.NewGuid(),  // Создаём новый Guid для нового объекта
+                Id = Guid.NewGuid(),  
                 GroupName = vm.GroupName,
                 ChildrenCount = vm.ChildrenCount,
                 KindergartenName = vm.KindergartenName,
@@ -88,7 +89,7 @@ namespace ShopTARgv23.Controllers
             }
 
             var photos = await _context.FileToDatabases
-               .Where(x => x.RealEstateId == id)
+               .Where(x => x.KindergartenId == id)
                .Select(y => new KindergartenImageViewModel
                {
                    KindergartenId = y.Id,
@@ -98,15 +99,17 @@ namespace ShopTARgv23.Controllers
                    Image = string.Format("data:image/gif;base64,{0}", Convert.ToBase64String(y.ImageData))
                }).ToArrayAsync();
 
-            var vm = new KindergartenDetailsViewModel
-            {
-                Id = kindergarten.Id,
-                GroupName = kindergarten.GroupName,
-                ChildrenCount = kindergarten.ChildrenCount,
-                KindergartenName = kindergarten.KindergartenName,
-                Teacher = kindergarten.Teacher,
-                Image = kindergarten.Add
-            };
+            var vm = new KindergartenDetailsViewModel();
+
+            vm.Id = kindergarten.Id;
+            vm.GroupName= kindergarten.GroupName;
+            vm.ChildrenCount = kindergarten.ChildrenCount;
+            vm.KindergartenName = kindergarten.KindergartenName;
+            vm.Teacher = kindergarten.Teacher;
+            vm.CreatedAt = kindergarten.CreatedAt;
+            vm.UpdatedAt = kindergarten.UpdatedAt;
+            vm.Image.AddRange(photos);
+
 
             return View(vm);
         }
@@ -121,14 +124,27 @@ namespace ShopTARgv23.Controllers
                 return NotFound();
             }
 
-            var vm = new KindergartenCreateUpdateViewModel
-            {
-                Id = kindergarten.Id,
-                GroupName = kindergarten.GroupName,
-                ChildrenCount = kindergarten.ChildrenCount,
-                KindergartenName = kindergarten.KindergartenName,
-                Teacher = kindergarten.Teacher
-            };
+            var photos = await _context.FileToDatabases
+               .Where(x => x.KindergartenId == id)
+               .Select(y => new KindergartenImageViewModel
+               {
+                   KindergartenId = y.Id,
+                   ImageId = y.Id,
+                   ImageData = y.ImageData,
+                   ImageTitle = y.ImageTitle,
+                   Image = string.Format("data:image/gif;base64,{0}", Convert.ToBase64String(y.ImageData))
+               }).ToArrayAsync();
+
+            var vm = new KindergartenDetailsViewModel();
+
+            vm.Id = kindergarten.Id;
+            vm.GroupName = kindergarten.GroupName;
+            vm.ChildrenCount = kindergarten.ChildrenCount;
+            vm.KindergartenName = kindergarten.KindergartenName;
+            vm.Teacher = kindergarten.Teacher;
+            vm.CreatedAt = kindergarten.CreatedAt;
+            vm.UpdatedAt = kindergarten.UpdatedAt;
+            vm.Image.AddRange(photos);
 
             return View("CreateUpdate", vm);
         }
@@ -148,7 +164,14 @@ namespace ShopTARgv23.Controllers
                 GroupName = vm.GroupName,
                 ChildrenCount = vm.ChildrenCount,
                 KindergartenName = vm.KindergartenName,
-                Teacher = vm.Teacher
+                Teacher = vm.Teacher,
+                Image = vm.Image.Select(x => new FileToDataBaseDto
+                {
+                    Id = x.ImageId,
+                    ImageData = x.ImageData,
+                    ImageTitle = x.ImageTitle,
+                    KindergartenId = x.KindergartenId,
+                }).ToArray()
             };
 
             var result = await _kindergartenServices.Update(dto);
@@ -171,14 +194,27 @@ namespace ShopTARgv23.Controllers
                 return NotFound();
             }
 
-            var vm = new KindergartenDeleteViewmodel
-            {
-                Id = kindergarten.Id,
-                GroupName = kindergarten.GroupName,
-                ChildrenCount = kindergarten.ChildrenCount,
-                KindergartenName = kindergarten.KindergartenName,
-                Teacher = kindergarten.Teacher
-            };
+            var photos = await _context.FileToDatabases
+               .Where(x => x.KindergartenId == id)
+               .Select(y => new KindergartenImageViewModel
+               {
+                   KindergartenId = y.Id,
+                   ImageId = y.Id,
+                   ImageData = y.ImageData,
+                   ImageTitle = y.ImageTitle,
+                   Image = string.Format("data:image/gif;base64,{0}", Convert.ToBase64String(y.ImageData))
+               }).ToArrayAsync();
+
+            var vm = new KindergartenDetailsViewModel();
+
+            vm.Id = kindergarten.Id;
+            vm.GroupName = kindergarten.GroupName;
+            vm.ChildrenCount = kindergarten.ChildrenCount;
+            vm.KindergartenName = kindergarten.KindergartenName;
+            vm.Teacher = kindergarten.Teacher;
+            vm.CreatedAt = kindergarten.CreatedAt;
+            vm.UpdatedAt = kindergarten.UpdatedAt;
+            vm.Image.AddRange(photos);
 
             return View(vm);
         }
@@ -195,5 +231,33 @@ namespace ShopTARgv23.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+
+        [HttpPost]
+
+        public async Task<IActionResult> RemoveImage(KindergartenImageViewModel file)
+        {
+            var dto = new FileToDataBaseDto()
+            {
+                Id = file.ImageId
+            };
+
+            //tuleb
+
+            var image = await _fileServices.RemoveImageFromDatabase(dto);
+
+            if (image == null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+
+
+
+
+
+
+
     }
 }

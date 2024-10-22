@@ -4,6 +4,7 @@ using ShopTARgv23.Core.Domain;
 using ShopTARgv23.Core.Dto;
 using ShopTARgv23.Core.ServiceInterface;
 using ShopTARgv23.Data;
+using System.Xml;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace ShopTARgv23.ApplicationServices.Services
@@ -99,5 +100,57 @@ namespace ShopTARgv23.ApplicationServices.Services
 
             return null;
         }
+
+        public void UploadFilesToDatabase(KindergartenDto dto, Kindergarten domain)
+        {
+            if (dto.Files != null && dto.Files.Count > 0)
+            {
+                foreach (var image in dto.Files)
+                {
+                    using (var target = new MemoryStream())
+                    {
+                        FileToDataBase files = new FileToDataBase()
+                        {
+                            Id = Guid.NewGuid(),
+                            ImageTitle = image.FileName,
+                            KindergartenId = domain.Id
+                        };
+
+                        image.CopyTo(target);
+                        files.ImageData = target.ToArray();
+
+                        _context.FileToDatabases.Add(files);
+                    }
+                }
+            }
+        }
+
+        public async Task<FileToDataBase> RemoveImageFromDatabase(FileToDataBaseDto dto)
+        {
+            var image = await _context.FileToDatabases
+                .Where(x => x.Id == dto.Id)
+                .FirstOrDefaultAsync();
+
+            _context.FileToDatabases.Remove(image);
+            await _context.SaveChangesAsync();
+
+            return image;
+        }
+
+        public async Task<FileToDataBase> RemoveImagesFromDatabase(FileToDataBaseDto[] dtos)
+        {
+            foreach (var dto in dtos)
+            {
+                var image = await _context.FileToDatabases
+                .Where(x => x.Id == dto.Id)
+                .FirstOrDefaultAsync();
+
+                _context.FileToDatabases.Remove(image);
+                await _context.SaveChangesAsync();
+            }
+
+            return null;
+        }
+
     }
 }

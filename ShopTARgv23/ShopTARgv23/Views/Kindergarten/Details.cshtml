@@ -30,6 +30,12 @@
             <label asp-for="Teacher" class="col-sm-2 col-form-label"></label>
             @Html.DisplayFor(model => model.Teacher)
         </div>
+        @foreach (var images in Model.Image)
+        {
+            <partial name="_Images" model="images" />
+        }
+
+
     </dl>
     <a asp-action="Index" asp-controller="Kindergarten" class="btn btn-danger">Back</a>
 </div>
