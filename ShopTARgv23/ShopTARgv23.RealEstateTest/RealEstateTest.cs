@@ -73,12 +73,12 @@ namespace ShopTARgv23.RealEstateTest
         {
             RealEstateDto realEstate = MockRealEstateData();
 
-             var create  = await Svc<IRealEstateServices>().Create(realEstate);
+            var create = await Svc<IRealEstateServices>().Create(realEstate);
 
             var result = await Svc<IRealEstateServices>().Delete((Guid)create.Id);
-           
+
             Assert.Equal(create.Id, result.Id);
-            
+
         }
 
         [Fact]
@@ -91,10 +91,10 @@ namespace ShopTARgv23.RealEstateTest
             var realEstate2 = await Svc<IRealEstateServices>().Create(realEstate);
 
             var result = await Svc<IRealEstateServices>().Delete((Guid)realEstate2.Id);
-            
 
-           Assert.NotEqual(realEstate1.Id, result.Id);
-            
+
+            Assert.NotEqual(realEstate1.Id, result.Id);
+
 
         }
 
@@ -119,7 +119,7 @@ namespace ShopTARgv23.RealEstateTest
             domain.CreatedAt = DateTime.UtcNow;
             domain.ModifiedAt = DateTime.UtcNow;
 
-           await Svc<IRealEstateServices>().Update(realEstate);
+            await Svc<IRealEstateServices>().Update(realEstate);
 
 
 
@@ -163,6 +163,26 @@ namespace ShopTARgv23.RealEstateTest
 
         }
 
+        [Fact]
+
+        public async Task ShouldNot_UpdateRealEstate_WhenNotUpdateData()
+        {
+            RealEstateDto nullUpdate = MockNullRealEstateData2();
+
+            RealEstateDto nullCreate = MockRealEstateData2();
+
+            var create = await Svc<IRealEstateServices>().Update(nullCreate);
+
+            var result = await Svc<IRealEstateServices>().Update(nullUpdate);
+
+            Assert.NotEqual(create.Id, result.Id);
+
+
+
+
+
+        }
+      
 
 
 
@@ -197,11 +217,27 @@ namespace ShopTARgv23.RealEstateTest
             return realEstate;
         }
 
+        private RealEstateDto MockNullRealEstateData2()
+        {
+            RealEstateDto nullDto = new()
+            {
+                Id = null,
+                Location = "dfsdfd",
+                Size = 110,
+                RoomNumber = 2,
+                BuildingType = "sdfsdfds",
+                CreatedAt = DateTime.Now.AddYears(-1),
+                ModifiedAt = DateTime.Now.AddYears(-1),
+            };
+
+            return nullDto;
+        }
 
 
-        
-        
-        
+
+
+
+
 
 
 
