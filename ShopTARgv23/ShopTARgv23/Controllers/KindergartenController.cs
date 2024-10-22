@@ -87,13 +87,25 @@ namespace ShopTARgv23.Controllers
                 return NotFound();
             }
 
+            var photos = await _context.FileToDatabases
+               .Where(x => x.RealEstateId == id)
+               .Select(y => new KindergartenImageViewModel
+               {
+                   KindergartenId = y.Id,
+                   ImageId = y.Id,
+                   ImageData = y.ImageData,
+                   ImageTitle = y.ImageTitle,
+                   Image = string.Format("data:image/gif;base64,{0}", Convert.ToBase64String(y.ImageData))
+               }).ToArrayAsync();
+
             var vm = new KindergartenDetailsViewModel
             {
                 Id = kindergarten.Id,
                 GroupName = kindergarten.GroupName,
                 ChildrenCount = kindergarten.ChildrenCount,
                 KindergartenName = kindergarten.KindergartenName,
-                Teacher = kindergarten.Teacher
+                Teacher = kindergarten.Teacher,
+                Image = kindergarten.Add
             };
 
             return View(vm);
