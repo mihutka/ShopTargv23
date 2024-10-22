@@ -135,7 +135,7 @@ namespace ShopTARgv23.Controllers
                    Image = string.Format("data:image/gif;base64,{0}", Convert.ToBase64String(y.ImageData))
                }).ToArrayAsync();
 
-            var vm = new KindergartenDetailsViewModel();
+            var vm = new KindergartenCreateUpdateViewModel();
 
             vm.Id = kindergarten.Id;
             vm.GroupName = kindergarten.GroupName;
@@ -152,15 +152,11 @@ namespace ShopTARgv23.Controllers
         [HttpPost]
         public async Task<IActionResult> Update(KindergartenCreateUpdateViewModel vm)
         {
-            if (!vm.Id.HasValue)
-            {
-                // Обработка ошибки, если Id отсутствует при попытке обновления
-                return BadRequest("Id is required for update.");
-            }
+           
 
             var dto = new KindergartenDto
             {
-                Id = vm.Id.Value,  // Явное приведение Guid? к Guid после проверки
+                Id = vm.Id.Value,  
                 GroupName = vm.GroupName,
                 ChildrenCount = vm.ChildrenCount,
                 KindergartenName = vm.KindergartenName,
@@ -205,7 +201,7 @@ namespace ShopTARgv23.Controllers
                    Image = string.Format("data:image/gif;base64,{0}", Convert.ToBase64String(y.ImageData))
                }).ToArrayAsync();
 
-            var vm = new KindergartenDetailsViewModel();
+            var vm = new KindergartenDeleteViewmodel();
 
             vm.Id = kindergarten.Id;
             vm.GroupName = kindergarten.GroupName;
