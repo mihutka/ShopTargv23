@@ -161,6 +161,7 @@ namespace ShopTARgv23.Controllers
                 ChildrenCount = vm.ChildrenCount,
                 KindergartenName = vm.KindergartenName,
                 Teacher = vm.Teacher,
+                Files = vm.Files,
                 Image = vm.Image.Select(x => new FileToDataBaseDto
                 {
                     Id = x.ImageId,
