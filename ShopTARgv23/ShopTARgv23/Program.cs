@@ -42,6 +42,8 @@ namespace ShopTARgv23
                 RequestPath = "/multipleFileUpload"
             });
 
+            app.MapFallbackToFile("Index.html");
+
             app.UseRouting();
 
             app.UseAuthorization();
@@ -49,6 +51,8 @@ namespace ShopTARgv23
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
+
+            app.MapFallbackToFile("Index.html");
 
             app.Run();
         }
