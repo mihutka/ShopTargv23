@@ -24,7 +24,7 @@ namespace ShopTARgv23.Data.Migrations
 
             modelBuilder.Entity("ShopTARgv23.Core.Domain.FileToApi", b =>
                 {
-                    b.Property<Guid?>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -41,7 +41,7 @@ namespace ShopTARgv23.Data.Migrations
 
             modelBuilder.Entity("ShopTARgv23.Core.Domain.FileToDatabase", b =>
                 {
-                    b.Property<Guid?>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 

@@ -12,7 +12,7 @@ using ShopTARgv23.Data;
 namespace ShopTARgv23.Data.Migrations
 {
     [DbContext(typeof(ShopTARgv23Context))]
-    [Migration("20241015073227_NullableData")]
+    [Migration("20241015070210_NullableData")]
     partial class NullableData
     {
         /// <inheritdoc />
@@ -27,7 +27,7 @@ namespace ShopTARgv23.Data.Migrations
 
             modelBuilder.Entity("ShopTARgv23.Core.Domain.FileToApi", b =>
                 {
-                    b.Property<Guid?>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -44,7 +44,7 @@ namespace ShopTARgv23.Data.Migrations
 
             modelBuilder.Entity("ShopTARgv23.Core.Domain.FileToDatabase", b =>
                 {
-                    b.Property<Guid?>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 

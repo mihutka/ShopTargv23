@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ShopTARgv23.RealEstateTest.Mock
 {
-    public class IMockHostEnviromnet : IHostEnvironment
+    public class IMockHostEnvironment : IHostEnvironment
     {
         public string EnvironmentName { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public string ApplicationName { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }

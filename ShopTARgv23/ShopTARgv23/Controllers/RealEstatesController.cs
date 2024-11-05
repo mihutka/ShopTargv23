@@ -17,16 +17,13 @@ namespace ShopTARgv23.Controllers
         public RealEstatesController
             (
                 ShopTARgv23Context context,
-                IRealEstateServices realEstatesServices
-            ,
+                IRealEstateServices realEstatesServices,
                 IFileServices fileServices
-
             )
         {
             _context = context;
             _realEstatesServices = realEstatesServices;
             _fileServices = fileServices;
-
         }
 
         public IActionResult Index()
@@ -210,8 +207,6 @@ namespace ShopTARgv23.Controllers
                     Image = string.Format("data:image/gif;base64,{0}", Convert.ToBase64String(y.ImageData))
                 }).ToArrayAsync();
 
-
-
             var vm = new RealEstateDeleteViewModel();
 
             vm.Id = id;
@@ -223,6 +218,7 @@ namespace ShopTARgv23.Controllers
             vm.CreatedAt = realEstate.CreatedAt;
             vm.ModifiedAt = realEstate.ModifiedAt;
             vm.Image.AddRange(photos);
+
             return View(vm);
         }
 
@@ -240,15 +236,12 @@ namespace ShopTARgv23.Controllers
         }
 
         [HttpPost]
-
         public async Task<IActionResult> RemoveImage(RealEstateImageViewModel file)
         {
             var dto = new FileToDatabaseDto()
             {
                 Id = file.ImageId
             };
-
-            //tuleb
 
             var image = await _fileServices.RemoveImageFromDatabase(dto);
 
@@ -259,7 +252,5 @@ namespace ShopTARgv23.Controllers
 
             return RedirectToAction(nameof(Index));
         }
-
-        
     }
 }

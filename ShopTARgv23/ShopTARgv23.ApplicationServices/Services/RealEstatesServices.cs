@@ -3,7 +3,6 @@ using ShopTARgv23.Core.Domain;
 using ShopTARgv23.Core.Dto;
 using ShopTARgv23.Core.ServiceInterface;
 using ShopTARgv23.Data;
-using static System.Net.Mime.MediaTypeNames;
 
 
 namespace ShopTARgv23.ApplicationServices.Services
@@ -83,18 +82,17 @@ namespace ShopTARgv23.ApplicationServices.Services
         {
             var result = await _context.RealEstates
                 .FirstOrDefaultAsync(x => x.Id == id);
-            
-            var photos = await _context.FileToDatabases
-                 .Where(x => x.RealEstateId == id)
-                 .Select(y => new FileToDatabaseDto 
-                 {
-                     Id = y.Id,
-                     ImageTitle = y.ImageTitle,
-                     RealEstateId = y.RealEstateId,
-                     
-                 }).ToArrayAsync();
-            
-            await _fileServices.RemoveImagesFromDatabase(photos);
+
+            var images = await _context.FileToDatabases
+                .Where(x => x.RealEstateId == id)
+                .Select(y => new FileToDatabaseDto
+                {
+                    Id = y.Id,
+                    ImageTitle = y.ImageTitle,
+                    RealEstateId = y.RealEstateId
+                }).ToArrayAsync();
+
+            await _fileServices.RemoveImagesFromDatabase(images);
             _context.RealEstates.Remove(result);
             await _context.SaveChangesAsync();
 

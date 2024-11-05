@@ -18,6 +18,7 @@ namespace ShopTARgv23
             builder.Services.AddScoped<ISpaceshipServices, SpaceshipsServices>();
             builder.Services.AddScoped<IFileServices, FileServices>();
             builder.Services.AddScoped<IRealEstateServices, RealEstatesServices>();
+            builder.Services.AddScoped<IWeatherForecastServices, WeatherForecastServices>();
 
             builder.Services.AddDbContext<ShopTARgv23Context>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -42,8 +43,6 @@ namespace ShopTARgv23
                 RequestPath = "/multipleFileUpload"
             });
 
-            app.MapFallbackToFile("Index.html");
-
             app.UseRouting();
 
             app.UseAuthorization();
@@ -51,8 +50,6 @@ namespace ShopTARgv23
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
-
-            app.MapFallbackToFile("Index.html");
 
             app.Run();
         }
