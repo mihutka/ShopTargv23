@@ -18,6 +18,7 @@ namespace ShopTARgv23
             builder.Services.AddScoped<ISpaceshipServices, SpaceshipsServices>();
             builder.Services.AddScoped<IKindergartenServices, KindergartenServices>();
             builder.Services.AddScoped<IFileServices, FileServices>();
+            builder.Services.AddScoped<IOpenWeatherMap, OpenWeatherMapServices>();
 
             builder.Services.AddDbContext<ShopTARgv23Context>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
