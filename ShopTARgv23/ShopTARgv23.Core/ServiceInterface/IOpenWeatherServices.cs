@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace ShopTARgv23.Core.ServiceInterface
 {
-    public interface IOpenWeatherMap
+    public interface IOpenWeatherServices
     {
-        Task<OpenWeatherMapResultDto> OpenWeatherResult(OpenWeatherMapResultDto dto);
+        Task<OpenWeatherResultDto> OpenWeatherResult(OpenWeatherResultDto dto);
     }
 }

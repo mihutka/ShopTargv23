@@ -11,38 +11,63 @@ using System.Threading.Tasks;
 
 namespace ShopTARgv23.ApplicationServices.Services
 {
-    public class OpenWeatherMapServices : IOpenWeatherMap
+    public class OpenWeatherServices : IOpenWeatherServices
     {
-        public async Task<OpenWeatherMapResultDto> OpenWeatherResult(OpenWeatherMapResultDto dto)
+        public async Task<OpenWeatherResultDto> OpenWeatherResult(OpenWeatherResultDto dto)
         {
-            string apiKey = "9e82a8e542b3603dcfb99d9b0da2a2a0";
-            string url = $"https://api.openweathermap.org/data/2.5/weather?q={dto.City},{dto.CountryCode}&units=metric&appid={apiKey}";
+            string openApiKey = "9e82a8e542b3603dcfb99d9b0da2a2a0";
+            string url = $"https://api.openweathermap.org/data/2.5/weather?units=metric&q={dto.Name}&appid={openApiKey}";
 
             using (WebClient client = new WebClient())
             {
                 string json = client.DownloadString(url);
-                OpenWeaterMapRoot weatherRoot = new JavaScriptSerializer().Deserialize<OpenWeaterMapRoot>(json);
+                Console.WriteLine(json);  
+                OpenWeatherRootDto openweatherRootDto = new JavaScriptSerializer()
+                    .Deserialize<OpenWeatherRootDto>(json);
 
-                dto.City = weatherRoot.Name;
-                dto.CountryCode = weatherRoot.Sys.Country;
-                dto.Temperature = weatherRoot.Main.Temp;
-                dto.FeelsLike = weatherRoot.Main.Feels_Like;
-                dto.MinTemperature = weatherRoot.Main.Temp_Min;
-                dto.MaxTemperature = weatherRoot.Main.Temp_Max;
-                dto.WeatherMain = weatherRoot.Weather[0].Main;
-                dto.WeatherDescription = weatherRoot.Weather[0].Description;
-                dto.WindSpeed = weatherRoot.Wind.Speed;
-                dto.WindDirection = weatherRoot.Wind.Deg;
-                dto.Humidity = weatherRoot.Main.Humidity;
-                dto.Pressure = weatherRoot.Main.Pressure;
-                dto.Cloudiness = weatherRoot.Clouds.All;
+                dto.Coord = openweatherRootDto.Coord;
+                dto.Weather = openweatherRootDto.Weather;
+                dto.Base = openweatherRootDto.Base;
+                dto.Main = openweatherRootDto.Main;
+                dto.Visibility = openweatherRootDto.Visibility;
+                dto.Wind = openweatherRootDto.Wind;
+                dto.Clouds = openweatherRootDto.Clouds;
+                dto.Dt = openweatherRootDto.Dt;
+                dto.Sys = openweatherRootDto.Sys;
+                dto.Timezone = openweatherRootDto.Timezone;
+                dto.Id = openweatherRootDto.Id;
+                dto.Name = openweatherRootDto.Name;
+                dto.Cod = openweatherRootDto.Cod;
 
-                dto.Sunrise = DateTimeOffset.FromUnixTimeSeconds(weatherRoot.Sys.Sunrise).ToLocalTime().ToString("HH:mm");
-                dto.Sunset = DateTimeOffset.FromUnixTimeSeconds(weatherRoot.Sys.Sunset).ToLocalTime().ToString("HH:mm");
+                dto.Clouds = openweatherRootDto.Clouds;
+                dto.Clouds.All = openweatherRootDto.Clouds.All;
+
+                dto.Coord.Lat = openweatherRootDto.Coord.Lat;
+                dto.Coord.Lon = openweatherRootDto.Coord.Lon;
+
+                dto.Main.Temp = openweatherRootDto.Main.Temp;
+                dto.Main.feels_like = openweatherRootDto.Main.feels_like;
+                dto.Main.TempMin = openweatherRootDto.Main.TempMin;
+                dto.Main.TempMax = openweatherRootDto.Main.TempMax;
+                dto.Main.Pressure = openweatherRootDto.Main.Pressure;
+                dto.Main.Humidity = openweatherRootDto.Main.Humidity;
+                dto.Main.SeaLevel = openweatherRootDto.Main.GrndLevel;
+
+                dto.Sys.Type = openweatherRootDto.Sys.Type;
+                dto.Sys.Id = openweatherRootDto.Sys.Id;
+                dto.Sys.Country = openweatherRootDto.Sys.Country;
+                dto.Sys.Sunrise = openweatherRootDto.Sys.Sunrise;
+                dto.Sys.Sunset = openweatherRootDto.Sys.Sunset;
+
+                dto.Wind.Speed = openweatherRootDto.Wind.Speed;
+                dto.Wind.Deg = openweatherRootDto.Wind.Deg;
+
+
+
+                return dto;
+
 
             }
-
-            return dto;
         }
     }
 }

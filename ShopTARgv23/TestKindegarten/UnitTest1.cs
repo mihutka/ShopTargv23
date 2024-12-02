@@ -53,46 +53,53 @@ namespace TestKindegarten
             Assert.NotEqual(dto.ChildrenCount, createdKindergarten.ChildrenCount);
         }
 
+
+
         [Fact]
+        public async Task Should_ReturnNull_WhenKindergartenNotFound()
+        {
+            Guid nonExistingId = Guid.NewGuid();
+            var result = await Svc<IKindergartenServices>().DetailsAsync(nonExistingId);
+            Assert.Null(result);
+        }
 
-
-        public async Task Should_Delete_Kindergarten()
+        [Fact]
+        public async Task Should_Update_KindergartenGroupName()
         {
             
-
             var dto = new KindergartenDto
             {
-                
                 Teacher = "wasd",
-                KindergartenName = "Test",
-                GroupName = "Test",
-                ChildrenCount = 15,
-                
+                KindergartenName = "wasd",
+                GroupName = "asdsad",
+                ChildrenCount = 25,
             };
 
-            var dto2 = new KindergartenDto
+            var createdKindergarten = await Svc<IKindergartenServices>().Create(dto);
+
+            var updatedDto = new KindergartenDto
             {
+                Id = createdKindergarten.Id,
                 Teacher = "wasd",
-                KindergartenName = "Test",
-                GroupName = "Test",
-                ChildrenCount = 15,
+                KindergartenName = "wasd",
+                GroupName = "asdas", 
+                ChildrenCount = 25,
             };
-
-            Assert.Equal(dto.GroupName, dto2.GroupName);
-
-
-
-            var createDto = await Svc<IKindergartenServices>().Create(dto);
-
-            var createDto2 = await Svc<IKindergartenServices>().Create(dto2);
-
-            var deleteKindergartenGroup = await Svc<IKindergartenServices>().Delete((Guid)createDto.Id);
 
             
-            Assert.Null(deleteKindergartenGroup);
-            Assert.NotNull(createDto2);
+            var updatedKindergarten = await Svc<IKindergartenServices>().Update(updatedDto);
 
+            
+            Assert.NotNull(updatedKindergarten);
+            Assert.Equal(updatedDto.GroupName, updatedKindergarten.GroupName);
+            Assert.NotEqual(dto.GroupName, updatedKindergarten.GroupName);
         }
+
+
+
+
+
+
 
 
     }
