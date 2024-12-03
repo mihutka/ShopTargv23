@@ -9,9 +9,5 @@ namespace ShopTARgv23.Models.AccuWeathers
         [StringLength(20, MinimumLength = 2, ErrorMessage = "Enter a city name greater than 2 and lesser than 20 chracters!")]
         [Display(Name = "City Name")]
         public string CityName { get; set; }
-
-        public string CityCode { get; set; }
-
-        public string Rank { get; set; }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using ShopTARgv23.Core.Domain;
 using ShopTARgv23.Models.Accounts;
 
@@ -11,13 +10,11 @@ namespace ShopTARgv23.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        
 
         public AccountsController
             (
-              UserManager<ApplicationUser> userManager,
-              SignInManager<ApplicationUser> signInManager
-              
+                UserManager<ApplicationUser> userManager,
+                SignInManager<ApplicationUser> signInManager
             )
         {
             _userManager = userManager;
@@ -26,7 +23,6 @@ namespace ShopTARgv23.Controllers
 
 
         [HttpGet]
-
         public IActionResult Register()
         {
             return View();
@@ -34,17 +30,15 @@ namespace ShopTARgv23.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-
         public async Task<IActionResult> Register(RegisterViewModel vm)
         {
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser
                 {
-                    UserName = vm.EmailAddress,
-                    Email = vm.EmailAddress,
+                    UserName = vm.Email,
+                    Email = vm.Email,
                     City = vm.City,
-
                 };
 
                 var result = await _userManager.CreateAsync(user, vm.Password);
@@ -52,32 +46,25 @@ namespace ShopTARgv23.Controllers
                 if (result.Succeeded)
                 {
                     var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    var confirmationLink = Url.Action("ConfirmEmail", "Accounts", new { userId = user.Id, token = token }, Request.Scheme);
+                    var confirmationLink = Url.Action("ConfirmEmail", "Accounts", new {userId = user.Id, token = token}, Request.Scheme);
 
-                    if (_signInManager.IsSignedIn(User) && User.IsInRole("Admin")  )
+                    if (_signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
                     {
-                        return RedirectToAction("ListUsers", "Administration");
+                        return RedirectToAction("ListUsers", "Administrations");
                     }
 
                     ViewBag.ErrorTitle = "Registration succesful";
-                    ViewBag.ErrorMessage = "Before you can Login, please confirm your " + "email, by clicking on the confirmation link we have emailed you";
+                    ViewBag.ErrorMessage = "Before you can Login, please confirm your " +
+                        "email, by clicking on the confirmation link we have emailed you";
 
-                    return View("Error");
-
+                    return View("ErrorEmail");
                 }
 
                 foreach (var error in result.Errors)
                 {
                     ModelState.AddModelError("", error.Description);
                 }
-
-
-
-
-                
             }
-
-
 
             return View();
         }

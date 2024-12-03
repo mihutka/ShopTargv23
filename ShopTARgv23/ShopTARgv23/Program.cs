@@ -3,8 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using ShopTARgv23.Core.ServiceInterface;
 using ShopTARgv23.ApplicationServices.Services;
 using Microsoft.Extensions.FileProviders;
-using Microsoft.AspNetCore.Identity;
 using ShopTARgv23.Core.Domain;
+using Microsoft.AspNetCore.Identity;
+
 
 namespace ShopTARgv23
 {
@@ -21,6 +22,10 @@ namespace ShopTARgv23
             builder.Services.AddScoped<IFileServices, FileServices>();
             builder.Services.AddScoped<IRealEstateServices, RealEstatesServices>();
             builder.Services.AddScoped<IWeatherForecastServices, WeatherForecastServices>();
+            builder.Services.AddScoped<IChuckNorrisServices, ChuckNorrisServices>();
+            builder.Services.AddScoped<IFreeGameServices, FreeGameServices>();
+            builder.Services.AddScoped<ICocktailServices, CocktailServices>();
+            builder.Services.AddScoped<IEmailsServices, EmailsServices>();
 
             builder.Services.AddDbContext<ShopTARgv23Context>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -38,11 +43,6 @@ namespace ShopTARgv23
             .AddDefaultTokenProviders()
             .AddTokenProvider<DataProtectorTokenProvider<ApplicationUser>>("CustomEmailConfirmation")
             .AddDefaultUI();
-
-
-
-
-
 
             var app = builder.Build();
 
