@@ -123,7 +123,6 @@ namespace ShopTARgv23.Controllers
 
             return View(model);
         }
-
        
         
     }
