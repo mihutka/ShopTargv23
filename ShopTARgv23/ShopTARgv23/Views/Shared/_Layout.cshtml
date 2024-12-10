@@ -1,5 +1,7 @@
-﻿@using Microsoft.AspNetCore.Identity;
+﻿
+@using Microsoft.AspNetCore.Identity;
 @inject SignInManager<ShopTARgv23.Core.Domain.ApplicationUser> signInManager;
+@model ShopTARgv23.Models.Accounts.LoginViewModel
 
 
 <!DOCTYPE html>
@@ -9,7 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - ShopTARgv23</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/main.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/ShopTARgv23.styles.css" asp-append-version="true" />
 </head>
 <body>
@@ -67,11 +69,26 @@
                     <ul class="navbar-nav ml-auto">
                         @if (signInManager.IsSignedIn(User))
                         {
-
                             <li class="nav-item">
+                                <div class="dropdown">
+                                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Manage Account
+                                    </a>
+
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                        <li><a class="dropdown-item" asp-asp-controller="Accounts" asp-action="ChangePassword">ChangePassword</a></li>
+                                        
+                                    </ul>
+                                </div>
+
+
+
+                            
+
                                 <form method="post" asp-controller="Accounts" asp-action="Logout">
                                     <button type="submit" class="nav-link btn btn-link py-0" style="">
                                         Logout @User.Identity.Name
+                                        <label asp-asp-for="FirstName" class="form-contorl" />
                                     </button>
                                 </form>
                             </li>
